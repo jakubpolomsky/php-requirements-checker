@@ -23,11 +23,24 @@ class Checker
             if (extension_loaded($extension) && StringFunctions::compareVersions($version, $versionAvailable)) {
                 $result[$extension] = true;
             } else {
+                if ($includeLoading) {
+                    $result[$extension] = $this->loadExtension($extension);
+                }
                 $result[$extension] = false;
             }
         }
-
         return $result;
+    }
+
+    private function loadExtension($extension, $realExtensionName = null)
+    {
+        if ( ! function_exists('dl')) {
+            return false;
+        }
+
+        $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
+
+        return dl($prefix . ($realExtensionName ? $realExtensionName : $extension) . '.' . PHP_SHLIB_SUFFIX);
     }
 
     /**
@@ -50,7 +63,8 @@ class Checker
 
     /**
      * @param $array
-     * @return $this     */
+     * @return $this
+     */
     public function addDependenciesViaArray($array)
     {
         if (is_array($array) && count($array) > 0) {
