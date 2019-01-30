@@ -1,0 +1,32 @@
+{
+  "name": "jakubpolomsky/php-requirements-checker",
+  "description": "Library for checking whether required php extensions are loaded.",
+  "minimum-stability": "stable",
+  "license": "GPL-3.0-only",
+  "require": {
+    "ext-intl": ">=1.0.0",
+    "ext-mcrypt": ">=0.0.1",
+    "ext-curl": "<9.0.0",
+    "php": ">=5.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "squizlabs/php_codesniffer": "*"
+  },
+  "scripts": {
+    "cs-check": "phpcs",
+    "cs-fix": "phpcbf",
+    "test": "phpunit --color=always",
+    "test-coverage": "phpunit --coverage-clover build/coverage/xml"
+  },
+  "autoload": {
+    "psr-4": {
+      "jakubpolomsky\\phpRequirementsChecker\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "jakubpolomskyTest\\phpRequirementsChecker\\": "test/"
+    }
+  }
+}
