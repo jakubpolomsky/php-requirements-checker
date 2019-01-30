@@ -31,3 +31,21 @@ foreach($checker2->check() as $requirement => $enabled) {
     echo "<tr><td>$requirement</td><td>$enabled</td></tr>";
 }
 echo "</table>";
+
+libxml_use_internal_errors( TRUE );
+
+$dom = new DOMDocument();
+$dom->validateOnParse = TRUE;
+$dom->preserveWhiteSpace = TRUE;
+$dom->formatOutput = TRUE;
+$dom->loadHTML( mb_convert_encoding( ob_get_contents(), 'UTF-8' ) );
+
+libxml_clear_errors();
+
+/*
+ perform any other operations on dom elements you wish
+*/
+
+$buffer = $dom->saveHTML();
+ob_end_clean();
+echo trim ( $buffer );/* send data to client/browser */
